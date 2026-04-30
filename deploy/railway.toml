@@ -1,0 +1,32 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "python -m uvicorn main:app --host 0.0.0.0 --port $PORT"
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[[services]]
+name = "api"
+
+[services.variables]
+PORT = "8000"
+ENVIRONMENT = "production"
+
+[[services.ports]]
+port = 8000
+handler = "http"
+
+[[services.concurrency]]
+type = "connections"
+hardLimit = 25
+softLimit = 20
+
+[[services.health_checks]]
+path = "/health"
+port = 8000
+interval = 60000
+timeout = 1000
+gracePeriod = 5

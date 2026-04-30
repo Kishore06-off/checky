@@ -1,0 +1,75 @@
+services:
+  # FastAPI Backend Service - Auto-Deploy
+  - type: web
+    name: govcheck-api
+    runtime: python
+    plan: free
+    repo: https://github.com/Kishore06-off/checky
+    rootDir: .
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: ENVIRONMENT
+        value: production
+      - key: GROQ_API_KEY
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: CHROMA_HOST
+        value: localhost
+      - key: CHROMA_PORT
+        value: 8001
+      - key: GROUNDING_VALIDATION_ENABLED
+        value: true
+      - key: GROUNDING_MIN_CONFIDENCE
+        value: 0.8
+
+  # Streamlit Frontend Service - Auto-Deploy
+  - type: web
+    name: govcheck-ui
+    runtime: python
+    plan: free
+    repo: https://github.com/Kishore06-off/checky
+    rootDir: .
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 8501
+      - key: API_URL
+        value: https://govcheck-api.onrender.com
+      - key: ENVIRONMENT
+        value: production
+
+  # ChromaDB Vector Database - Auto-Deploy
+  - type: pserv
+    name: govcheck-chroma
+    runtime: docker
+    plan: free
+    repo: https://github.com/Kishore06-off/checky
+    rootDir: deploy
+    dockerfilePath: ./chroma.Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: CHROMA_SERVER_HOST
+        value: 0.0.0.0
+      - key: CHROMA_SERVER_HTTP_PORT
+        value: 8001
+      - key: CHROMA_LOG_VERBOSE
+        value: INFO
+
+# Auto-Deploy Configuration
+autoDeploy:
+  enabled: true
+  hookType: github
+  branch: main
+  deployOnPush: true
+  clearCache: true
