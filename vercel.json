@@ -2,7 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.py",
+      "src": "api/health.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxDuration": 10,
+        "runtime": "python3.11"
+      }
+    },
+    {
+      "src": "api/upload.py",
       "use": "@vercel/python",
       "config": {
         "maxDuration": 30,
@@ -20,12 +28,12 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/index.py"
+      "src": "/api/upload",
+      "dest": "/api/upload.py"
     },
     {
       "src": "/health",
-      "dest": "/api/index.py"
+      "dest": "/api/health.py"
     },
     {
       "src": "/",
@@ -40,7 +48,7 @@
       "PYTHONPATH": "$PYTHONPATH:/var/task"
     }
   },
-  "installCommand": "pip install -r requirements.txt",
+  "installCommand": "pip install -r requirements-vercel.txt",
   "buildCommand": "echo 'Build complete'",
   "outputDirectory": ".",
   "rewrites": [

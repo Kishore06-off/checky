@@ -1,0 +1,30 @@
+# Minimal requirements for Vercel deployment
+# Only essential dependencies to keep bundle under 500MB
+
+# Core API
+fastapi
+uvicorn[standard]
+python-dotenv
+requests
+httpx
+python-multipart
+
+# Essential for processing
+pandas
+rapidfuzz
+tiktoken
+groq
+
+# Text processing
+beautifulsoup4
+trafilatura
+
+# File handling
+openpyxl
+python-docx
+
+# Database (minimal)
+sqlalchemy
+
+# Environment
+python-dotenv
