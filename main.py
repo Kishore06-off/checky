@@ -337,6 +337,26 @@ async def analyze_risks_agent(document_content: str, user_id: str, risk_categori
     result = await nanoclaw_service.analyze_document_risks(document_content, user_id, risk_categories)
     return result
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Render and monitoring"""
+    return {
+        "status": "ok",
+        "service": "GovCheck AI API",
+        "version": "2.0",
+        "environment": os.getenv("ENVIRONMENT", "development")
+    }
+
+@app.get("/")
+async def root():
+    """Root endpoint"""
+    return {
+        "message": "GovCheck AI API - Zero Hallucination Compliance System",
+        "health": "/health",
+        "docs": "/docs",
+        "version": "2.0"
+    }
+
 @app.get("/api/agents/status")
 async def agent_status():
     """Check NanoClaw agent service status"""
