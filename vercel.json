@@ -3,11 +3,19 @@
   "builds": [
     {
       "src": "api/index.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxDuration": 30,
+        "runtime": "python3.11"
+      }
     },
     {
       "src": "app_vercel.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxDuration": 10,
+        "runtime": "python3.11"
+      }
     }
   ],
   "routes": [
@@ -26,16 +34,6 @@
   ],
   "env": {
     "PYTHON_VERSION": "3.11"
-  },
-  "functions": {
-    "api/index.py": {
-      "runtime": "python3.11",
-      "maxDuration": 30
-    },
-    "app_vercel.py": {
-      "runtime": "python3.11",
-      "maxDuration": 10
-    }
   },
   "build": {
     "env": {
