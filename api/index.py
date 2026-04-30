@@ -13,6 +13,7 @@ sys.path.insert(0, str(project_root))
 # Set environment variables for Vercel
 os.environ["ENVIRONMENT"] = "production"
 
+# Main Vercel handler function
 def handler(request):
     """Main handler for all API requests"""
     
@@ -105,3 +106,6 @@ def root_handler():
             "platform": "vercel"
         })
     }
+
+# Vercel expects a function named 'handler' at the top level
+app = handler
