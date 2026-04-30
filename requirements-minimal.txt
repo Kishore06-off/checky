@@ -1,6 +1,0 @@
-# Ultra-minimal requirements for Vercel deployment
-# Only essential packages to stay under 500MB
-
-fastapi
-python-multipart
-requests
