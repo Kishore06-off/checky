@@ -7,7 +7,14 @@ import uuid
 import pandas as pd
 
 # Auto-detect API URL based on environment
-if os.getenv("ENVIRONMENT") == "production":
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+API_URL = os.getenv("API_URL", "http://localhost:8001")
+
+# Debug logging to show actual URL being used
+print(f"Environment: {ENVIRONMENT}")
+print(f"API_URL: {API_URL}")
+
+if ENVIRONMENT == "production":
     # On Render, use the actual service URL
     API_URL = os.getenv("API_URL", "https://govcheck-api.onrender.com")
 else:
