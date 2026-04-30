@@ -16,14 +16,6 @@
         "maxDuration": 30,
         "runtime": "python3.11"
       }
-    },
-    {
-      "src": "app_vercel.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxDuration": 10,
-        "runtime": "python3.11"
-      }
     }
   ],
   "routes": [
@@ -37,7 +29,7 @@
     },
     {
       "src": "/",
-      "dest": "/app_vercel.py"
+      "dest": "/api/health.py"
     }
   ],
   "env": {
@@ -48,13 +40,7 @@
       "PYTHONPATH": "$PYTHONPATH:/var/task"
     }
   },
-  "installCommand": "pip install -r requirements-vercel.txt",
+  "installCommand": "pip install -r requirements-minimal.txt",
   "buildCommand": "echo 'Build complete'",
-  "outputDirectory": ".",
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/app_vercel.py"
-    }
-  ]
+  "outputDirectory": "."
 }
